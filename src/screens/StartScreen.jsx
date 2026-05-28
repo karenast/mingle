@@ -51,7 +51,7 @@ export default function StartScreen() {
         <div className='flex flex-col gap-[10px] w-[330px] relative z-[1]'>
           <Button
             data-testid='start-login-btn'
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/home')}
             className='w-full'
             animateIn={fadeUp(0.35)}
           >

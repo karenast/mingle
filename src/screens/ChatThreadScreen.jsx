@@ -101,13 +101,6 @@ export default function ChatThreadScreen() {
     >
       <div className='absolute left-0 top-0 w-[390px] h-[88px] bg-white z-10' />
       <div className='absolute left-0 top-[87px] w-[390px] h-px bg-[#dedbed] z-10' />
-      <p className='absolute left-[24px] top-[14px] text-[11px] font-normal text-mingle-gray z-10'>
-        9:41
-      </p>
-      <p className='absolute right-0 top-0 text-[10px] font-normal text-mingle-gray z-10'>
-        ● ● ●
-      </p>
-
       <Button
         variant='icon'
         aria-label='Go back'

@@ -28,9 +28,6 @@ export default function MatchRevealScreen() {
       className='absolute inset-0 font-sans overflow-hidden flex flex-col'
       style={{ background: 'linear-gradient(to bottom, #c3c3ff 40%, #fafafc 100%)' }}
     >
-      <span className='absolute left-[24px] top-[14px] text-[11px] font-normal text-white'>9:41</span>
-      <span className='absolute right-[24px] top-[14px] text-[10px] font-normal text-white'>● ● ●</span>
-
       <div className='absolute left-0 right-0 top-[34px] h-[58px] flex items-center px-[16px]'>
         <Button
           variant='icon'
@@ -48,106 +45,109 @@ export default function MatchRevealScreen() {
 
       <div className='h-[117px] flex-shrink-0' />
 
-      <div className='flex-1 flex items-start justify-center px-[24px]'>
-        <div
-          style={{ width: 342, height: 530, perspective: 1000, flexShrink: 0 }}
-        >
+      <div className='flex-1 flex flex-col justify-center px-[24px] pb-[24px]'>
+        <div className='w-full h-[420px] sm:h-[520px]' style={{ perspective: 1000 }}>
           <motion.div
             animate={{ rotateY: isRevealed ? 180 : 0 }}
             transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
             style={{ width: '100%', height: '100%', transformStyle: 'preserve-3d', position: 'relative' }}
           >
+            {/* Front face */}
             <div
               onClick={() => {
-                  setIsRevealed(true);
-                  localStorage.setItem('mingle_match_revealed', 'true');
-                  localStorage.setItem('mingle_connections', '1');
-                  localStorage.setItem('mingle_streak', '1');
-                }}
+                setIsRevealed(true);
+                localStorage.setItem('mingle_match_revealed', 'true');
+                localStorage.setItem('mingle_connections', '1');
+                localStorage.setItem('mingle_streak', '1');
+              }}
               className='absolute inset-0 bg-white rounded-[20px] flex items-center justify-center cursor-pointer'
               style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
             >
               <p className='text-[24px] font-bold text-mingle-accent select-none'>tap to reveal</p>
             </div>
 
+            {/* Back face */}
             <div
-              className='absolute inset-0 bg-white rounded-[20px] overflow-hidden flex flex-col p-[18px] gap-[12px]'
+              className='absolute inset-0 bg-white rounded-[20px] overflow-hidden flex flex-col'
               style={{
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
               }}
             >
-              {/* Header: photo + name/year/courses */}
-              <div className='flex gap-[12px] items-start shrink-0'>
-                <div
-                  className='shrink-0 rounded-[12px] overflow-hidden'
-                  style={{ width: 130, height: 130, backgroundColor: '#DBE4FF' }}
-                >
-                  <img src={match.photoURL} alt="Match's profile" className='w-full h-full object-cover object-top' />
+              {/* Scrollable content */}
+              <div className='flex-1 overflow-y-auto min-h-0 p-[18px] flex flex-col gap-[12px]'>
+                {/* Header: photo + name/year/courses */}
+                <div className='flex gap-[12px] items-start shrink-0'>
+                  <div
+                    className='shrink-0 rounded-[12px] overflow-hidden'
+                    style={{ width: 100, height: 100, backgroundColor: '#DBE4FF' }}
+                  >
+                    <img src={match.photoURL} alt="Match's profile" className='w-full h-full object-cover object-top' />
+                  </div>
+
+                  <div className='flex flex-col gap-[6px] flex-1'>
+                    <p className='text-[20px] font-semibold text-mingle-dark leading-tight'>
+                      {match.firstName} {match.lastInitial}.
+                    </p>
+                    <div className='text-[12px] font-normal text-mingle-gray leading-tight'>
+                      <p>{match.year}</p>
+                      <p>{match.major}</p>
+                    </div>
+                    <div className='flex items-center gap-[6px] flex-wrap'>
+                      {match.sharedCourses.map((c) => (
+                        <span
+                          key={c}
+                          className='h-[24px] rounded-[12px] flex items-center px-[10px] text-[11px] font-normal'
+                          style={{ backgroundColor: '#fff4cf', color: '#a1680c' }}
+                        >
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                    <p className='text-[11px] italic' style={{ color: '#a1680c' }}>
+                      you share these classes
+                    </p>
+                  </div>
                 </div>
 
-                <div className='flex flex-col gap-[6px] flex-1'>
-                  <p className='text-[20px] font-semibold text-mingle-dark leading-tight'>
-                    {match.firstName} {match.lastInitial}.
+                {/* Bio */}
+                <div className='rounded-[12px] px-[12px] py-[10px] shrink-0' style={{ backgroundColor: '#f0f0f7' }}>
+                  <p className='text-[12px] italic text-center' style={{ color: '#704809' }}>
+                    {match.bio}
                   </p>
-                  <div className='text-[12px] font-normal text-mingle-gray leading-tight'>
-                    <p>{match.year}</p>
-                    <p>{match.major}</p>
-                  </div>
-                  <div className='flex items-center gap-[6px] flex-wrap'>
-                    {match.sharedCourses.map((c) => (
-                      <span
-                        key={c}
-                        className='h-[24px] rounded-[12px] flex items-center px-[10px] text-[11px] font-normal'
-                        style={{ backgroundColor: '#fff4cf', color: '#a1680c' }}
+                </div>
+
+                {/* Mascot + traits */}
+                <div className='flex items-end justify-between shrink-0'>
+                  <div className='flex flex-col gap-[4px]'>
+                    <p className='text-[12px] font-medium text-grape-gray'>
+                      {match.firstName} is most like...
+                    </p>
+                    <p className='text-[28px] font-semibold text-mingle-dark leading-none mb-[4px]'>
+                      {match.mascotName}
+                    </p>
+                    {[match.personalityType, ...match.personalityTags].map((tag) => (
+                      <div
+                        key={tag}
+                        className='h-[26px] rounded-[13px] bg-white border border-[#DBE0ED] flex items-center px-[12px] self-start'
                       >
-                        {c}
-                      </span>
+                        <p className='text-[11px] font-normal text-mingle-accent'>{tag}</p>
+                      </div>
                     ))}
                   </div>
-                  <p className='text-[11px] italic' style={{ color: '#a1680c' }}>
-                    you share these classes
-                  </p>
+
+                  <img
+                    src={mascotUrl}
+                    alt='mascot'
+                    className='object-contain shrink-0'
+                    style={{ width: 90, height: 90 }}
+                  />
                 </div>
               </div>
 
-              {/* Bio */}
-              <div className='rounded-[12px] px-[12px] py-[10px] shrink-0' style={{ backgroundColor: '#f0f0f7' }}>
-                <p className='text-[12px] italic text-center' style={{ color: '#704809' }}>
-                  {match.bio}
-                </p>
-              </div>
-
-              {/* Mascot + traits — MascotScreen style */}
-              <div className='flex items-end justify-between shrink-0'>
-                <div className='flex flex-col gap-[4px]'>
-                  <p className='text-[12px] font-medium text-grape-gray'>
-                    {match.firstName} is most like...
-                  </p>
-                  <p className='text-[32px] font-semibold text-mingle-dark leading-none mb-[4px]'>
-                    {match.mascotName}
-                  </p>
-                  {[match.personalityType, ...match.personalityTags].map((tag) => (
-                    <div
-                      key={tag}
-                      className='h-[26px] rounded-[13px] bg-white border border-[#DBE0ED] flex items-center px-[12px] self-start'
-                    >
-                      <p className='text-[11px] font-normal text-mingle-accent'>{tag}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <img
-                  src={mascotUrl}
-                  alt='mascot'
-                  className='object-contain shrink-0'
-                  style={{ width: 120, height: 120 }}
-                />
-              </div>
-
-              {/* Actions */}
-              <div className='flex flex-col gap-[10px] mt-auto'>
+              {/* Fixed action buttons */}
+              <div className='flex flex-col gap-[8px] px-[18px] pb-[18px] shrink-0'>
                 <Button variant='primary' className='w-full' onClick={handleShareInstagram}>
                   share your instagram
                 </Button>
@@ -155,7 +155,7 @@ export default function MatchRevealScreen() {
                   variant='secondary'
                   className='w-full'
                   style={{ backgroundColor: '#ebebeb' }}
-                  onClick={() => navigate('/chat/entry', { state: { ...location.state, match } })}
+                  onClick={() => navigate('/chat/entry', { state: { ...location.state, match, navDirection: 1 } })}
                 >
                   send a message
                 </Button>

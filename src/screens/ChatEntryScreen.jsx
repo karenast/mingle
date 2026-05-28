@@ -66,6 +66,7 @@ export default function ChatEntryScreen() {
               data-testid='chat-say-something-btn'
               onClick={() => navigate('/chat/thread', { state: { ...location.state, mode: 'free', navDirection: 1 } })}
               className='w-full'
+              style={{ background: '#ffffff' }}
             >
               say something else
             </Button>
