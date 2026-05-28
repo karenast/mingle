@@ -99,7 +99,7 @@ export default function ScheduleEntryScreen() {
                 data-testid='schedule-upload-btn'
                 onClick={() => fileRef.current?.click()}
                 className='group w-full h-[360px] rounded-[20px] bg-transparent flex items-center justify-center border-2 border-dashed border-[#dedbed] hover:border-[#a695e8] cursor-pointer transition-colors duration-200'
-                whileHover={{ scale: 1.015, backgroundColor: 'rgba(105,87,188,0.04)' }}
+                whileHover={{ backgroundColor: 'rgba(105,87,188,0.04)' }}
                 whileTap={{ scale: 0.99 }}
                 initial={{ opacity: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
