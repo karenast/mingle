@@ -7,6 +7,7 @@ import { recentConnections, currentMatch } from '../data/demoMatches';
 import AppHeader from '../components/AppHeader';
 import MatchBannerCard from '../components/MatchBannerCard';
 import BottomNav from '../components/BottomNav';
+import mascotWaveUrl from '../assets/mascot_wave.png';
 
 function getInitials(firstName, lastName) {
   return `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase();
@@ -63,7 +64,7 @@ export default function HomeScreen() {
       <AppHeader />
 
       <img
-        src='/src/assets/mascot_wave.png'
+        src={mascotWaveUrl}
         alt=''
         className='absolute'
         style={{

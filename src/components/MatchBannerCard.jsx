@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+import revealScribbleUrl from '../assets/reveal_scribble.png';
 
 const STAR_PATH =
   'M21.3323 1.6002C22.7233 -0.924597 26.5082 -0.337665 27.0692 2.48984L28.9681 12.0608C29.2208 13.3342 30.2425 14.3138 31.5253 14.5127L41.3953 16.0433C44.4376 16.5151 44.9938 20.6598 42.1835 21.9169L34.0899 25.5373C32.7744 26.1257 32.0404 27.5455 32.3209 28.959L34.0154 37.4996C34.5924 40.4073 31.1405 42.3799 28.9282 40.4068L21.0417 33.3728C20.1335 32.5628 18.8344 32.3614 17.7235 32.8583L8.07702 37.1733C5.37101 38.3838 2.67875 35.4584 4.1092 32.862L8.31075 25.2357C9.00616 23.9735 8.73661 22.3981 7.66111 21.4389L1.04418 15.5374C-1.25342 13.4882 0.531909 9.7065 3.57422 10.1783L13.4442 11.7088C14.7271 11.9078 15.9974 11.2836 16.6239 10.1465L21.3323 1.6002Z';
@@ -48,7 +49,7 @@ export default function MatchBannerCard({ variant, countdown, onClick }) {
           <div style={{ transform: 'rotate(-111.01deg) scaleY(-1)', flexShrink: 0, width: 251.64, height: 397.1, position: 'relative' }}>
             <div className='absolute inset-0 overflow-hidden' style={{ opacity: 0.25 }}>
               <img
-                src='/src/assets/reveal_scribble.png'
+                src={revealScribbleUrl}
                 alt=''
                 className='absolute h-full top-0'
                 style={{ left: '-14.45%', width: '114.46%', maxWidth: 'none' }}
@@ -79,7 +80,7 @@ export default function MatchBannerCard({ variant, countdown, onClick }) {
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
       <img
-        src='/src/assets/reveal_scribble.png'
+        src={revealScribbleUrl}
         alt=''
         className='absolute pointer-events-none'
         style={{
