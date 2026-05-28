@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp } from '../utils/motion';
 import PageMotion from '../components/PageMotion';
-import { Search, Plus, ChevronLeft, ArrowRight } from 'lucide-react';
+import { Plus, ChevronLeft, ArrowRight } from 'lucide-react';
 import Button from '../components/Button';
-import { DEMO_COURSES } from '../data/demoCourses';
+import CourseSearchInput from '../components/CourseSearchInput';
+import { DEMO_COURSES, COURSE_CATALOG } from '../data/demoCourses';
 
 export default function ScheduleEntryScreen() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function ScheduleEntryScreen() {
   };
 
   const suggestions = search.length > 0
-    ? DEMO_COURSES.filter(
+    ? COURSE_CATALOG.filter(
         (c) =>
           !courses.find((x) => x.id === c.id) &&
           (c.code.toLowerCase().includes(search.toLowerCase()) ||
@@ -38,7 +39,7 @@ export default function ScheduleEntryScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
     >
       <Button
         variant='icon'
@@ -80,52 +81,11 @@ export default function ScheduleEntryScreen() {
           we&apos;ll use your schedule to find your matches.
         </motion.p>
 
-        <motion.div className='w-[342px] relative mb-[24px]' {...fadeUp(0.15)}>
-          <label className='flex items-center w-full h-[48px] bg-white rounded-[10px] border border-[#dedbed] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.06)] px-[14px] gap-[10px]'>
-            <Search size={15} className='text-grape-gray shrink-0' />
-            <input
-              data-testid='schedule-search'
-              type='text'
-              placeholder='search by course code or title...'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className='grow text-[13px] text-mingle-dark bg-transparent outline-none placeholder:text-grape-gray'
-            />
-          </label>
-
-          <AnimatePresence>
-            {suggestions.length > 0 && (
-              <motion.div
-                className='absolute left-0 right-0 top-[52px] bg-white rounded-[10px] border border-[#dedbed] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] overflow-hidden z-10'
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.15 }}
-              >
-                {suggestions.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => addCourse(c)}
-                    className='w-full flex items-center gap-[10px] px-[14px] py-[10px] text-left hover:bg-grape-panel border-0 bg-transparent'
-                  >
-                    <span
-                      className='w-[8px] h-[8px] rounded-full shrink-0'
-                      style={{ backgroundColor: c.color }}
-                    />
-                    <span className='text-[13px] font-semibold text-mingle-dark'>{c.code}</span>
-                    <span className='text-[12px] font-normal text-grape-gray truncate'>{c.name}</span>
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
         <motion.p
           className='text-[16px] font-semibold text-mingle-dark mb-[14px]'
           {...fadeUp(0.2)}
         >
-          or upload from WebReg
+          upload from WebReg
         </motion.p>
 
         <motion.div
@@ -220,7 +180,10 @@ export default function ScheduleEntryScreen() {
       <Button
         data-testid='schedule-confirm-btn'
         disabled={!parsed}
-        onClick={() => navigate('/schedule/add', { state: { ...location.state, courses } })}
+        onClick={() => {
+          localStorage.setItem('mingle_courses', JSON.stringify(courses));
+          navigate('/schedule/add', { state: { ...location.state, courses } });
+        }}
         className='mx-[24px] mb-[88px]'
         animateIn={{ initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay: 0.3, ease: 'easeOut' } }}
       >

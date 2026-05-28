@@ -12,6 +12,7 @@ export const currentMatch = {
   sharedCourses: ['ICS 33', 'MATH 2B'],
   personalityType: 'INTP',
   personalityTags: ['easy-going', 'approachable'],
+  mascotName: 'Banana',
   bio: 'Currently surviving ICS 33 on caffeine and late-night debugging sessions.',
   weekMatched: 4,
   weeklyPrompt: 'Where is the best place to grab a coffee between classes?',

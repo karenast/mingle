@@ -9,7 +9,7 @@ export default function StartScreen() {
   const navigate = useNavigate();
 
   return (
-    <PageMotion className='absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-start overflow-hidden font-sans'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-start overflow-hidden font-sans'>
       <motion.div
         className='absolute pointer-events-none'
         style={{
@@ -60,7 +60,10 @@ export default function StartScreen() {
           <Button
             variant='secondary'
             data-testid='start-signup-btn'
-            onClick={() => { localStorage.removeItem('mingle_match_revealed'); navigate('/signup'); }}
+            onClick={() => {
+                ['mingle_match_revealed', 'mingle_connections', 'mingle_streak', 'mingle_connected', 'mingle_courses'].forEach(k => localStorage.removeItem(k));
+                navigate('/signup');
+              }}
             className='w-full'
             animateIn={fadeUp(0.45)}
           >

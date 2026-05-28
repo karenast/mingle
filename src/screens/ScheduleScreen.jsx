@@ -1,24 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { X, Search, ArrowRight } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { demoUser } from '../data/demoUser';
 import PageMotion from '../components/PageMotion';
 import AppHeader from '../components/AppHeader';
 import Button from '../components/Button';
-import { DEMO_COURSES } from '../data/demoCourses';
+import CourseSearchInput from '../components/CourseSearchInput';
+import { DEMO_COURSES, COURSE_CATALOG } from '../data/demoCourses';
 
 export default function ScheduleScreen() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [courses, setCourses] = useState(location.state?.courses ?? []);
+  const [courses, setCourses] = useState(() => {
+    if (location.state?.courses?.length > 0) return location.state.courses;
+    const saved = localStorage.getItem('mingle_courses');
+    if (saved) return JSON.parse(saved);
+    return [];
+  });
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('mingle_courses', JSON.stringify(courses));
+  }, [courses]);
 
   const remove = (id) => setCourses((c) => c.filter((x) => x.id !== id));
 
+  const suggestions = search.length > 0
+    ? COURSE_CATALOG.filter(
+        (c) =>
+          !courses.find((x) => x.id === c.id) &&
+          (c.code.toLowerCase().includes(search.toLowerCase()) ||
+            c.name.toLowerCase().includes(search.toLowerCase()))
+      )
+    : [];
+
+  const addCourse = (c) => {
+    setCourses((prev) => [...prev, c]);
+    setSearch('');
+  };
+
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
       style={{ background: 'linear-gradient(180deg, #C3C3FF 39.9%, #FAFAFC 100%)' }}
     >
       <AppHeader firstName={demoUser.firstName} lastName={demoUser.lastName} />
@@ -46,7 +70,7 @@ export default function ScheduleScreen() {
           <p className='text-[14px] font-semibold text-mingle-dark mb-[8px]'>
             added courses
           </p>
-          <div className='flex gap-[8px]'>
+          <div className='flex flex-wrap gap-[8px]'>
             {courses.map((c) => (
               <div
                 key={c.id}
@@ -67,17 +91,16 @@ export default function ScheduleScreen() {
 
       <div className='flex flex-col flex-1 rounded-t-[20px] px-[24px] pt-[20px] bg-grape-panel min-h-0 pb-[100px]'>
         {courses.length > 0 ? (
-          <label className='flex items-center gap-[8px] w-full h-[48px] rounded-[12px] bg-white border border-[#DBE0ED] mb-[14px] px-[14px] shrink-0'>
-            <Search size={15} className='text-grape-gray shrink-0' />
-            <input
-              data-testid='schedule-search'
-              type='text'
+          <div className='mb-[14px] shrink-0'>
+            <CourseSearchInput
+              search={search}
+              onSearchChange={setSearch}
+              suggestions={suggestions}
+              onAdd={addCourse}
               placeholder='+ add another course...'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className='grow text-[13px] text-mingle-dark bg-transparent outline-none'
+              testId='schedule-search'
             />
-          </label>
+          </div>
         ) : (
           <div className='flex items-center justify-center gap-[8px] w-full h-[48px] rounded-[12px] bg-white mb-[14px] px-[14px] shrink-0'>
             <p className='text-[13px] text-center w-full text-grape-gray'>
@@ -121,14 +144,6 @@ export default function ScheduleScreen() {
           ))}
         </div>
       </div>
-
-      <Button
-        data-testid='schedule-save-btn'
-        onClick={() => navigate('/home', { state: location.state })}
-        className='mb-[88px] mx-[24px]'
-      >
-        save &amp; continue <ArrowRight size={16} className='ml-[8px]' />
-      </Button>
     </PageMotion>
   );
 }

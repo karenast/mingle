@@ -11,7 +11,7 @@ export default function QuizIntroScreen() {
   const location = useLocation();
 
   return (
-    <PageMotion className='absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
       <div className='flex flex-col gap-[4px] px-[47px] mt-[57px]'>
         <motion.p className='text-[14px] font-semibold text-mingle-gray' {...fadeUp(0.1)}>
           Personality Quiz

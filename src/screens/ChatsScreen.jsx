@@ -1,18 +1,20 @@
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { MessageCircle } from 'lucide-react';
 import PageMotion from '../components/PageMotion';
 import AppHeader from '../components/AppHeader';
 import { currentMatch } from '../data/demoMatches';
 import { demoUser } from '../data/demoUser';
-import { JAMIE_RESPONSES } from '../data/demoMessages';
 import { fadeUp } from '../utils/motion';
+
+const INITIAL_MESSAGE = "Hey! Happy to be your match this week 👋";
 
 const CONVERSATIONS = [
   {
     id: 'conv_001',
     match: currentMatch,
-    lastMessage: JAMIE_RESPONSES[0].text,
+    lastMessage: INITIAL_MESSAGE,
     timestamp: 'now',
     unread: true,
   },
@@ -63,14 +65,18 @@ function ConversationItem({ conv, onClick }) {
 export default function ChatsScreen() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [search] = useState('');
+  const [search, setSearch] = useState('');
 
-  const filtered = CONVERSATIONS.filter(c =>
-    `${c.match.firstName} ${c.match.lastInitial}`.toLowerCase().includes(search.toLowerCase())
-  );
+  const matchRevealed = localStorage.getItem('mingle_match_revealed') === 'true';
+
+  const filtered = matchRevealed
+    ? CONVERSATIONS.filter(c =>
+        `${c.match.firstName} ${c.match.lastInitial}`.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
-    <PageMotion className='absolute inset-0 bg-mingle-bg-page w-[390px] h-[844px] font-sans overflow-hidden flex flex-col'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
       <AppHeader firstName={demoUser.firstName} lastName={demoUser.lastName} />
 
       <div className='flex-1 overflow-y-auto pb-[84px] mt-[56px]'>
@@ -81,11 +87,24 @@ export default function ChatsScreen() {
           messages
         </motion.p>
 
-        <motion.div
-          className='px-[24px] flex flex-col gap-[10px]'
-          {...fadeUp(0.15)}
-        >
-          {filtered.length > 0 ? (
+        <motion.div className='px-[24px] flex flex-col gap-[10px]' {...fadeUp(0.15)}>
+          {!matchRevealed ? (
+            <div className='flex flex-col items-center justify-center py-[60px] gap-[12px]'>
+              <div className='w-[56px] h-[56px] rounded-full bg-mingle-bg-content flex items-center justify-center'>
+                <MessageCircle size={24} className='text-mingle-accent' strokeWidth={1.5} />
+              </div>
+              <p className='text-[14px] font-semibold text-mingle-dark'>no messages yet</p>
+              <p className='text-[12px] font-normal text-mingle-gray text-center w-[200px] leading-snug'>
+                get your first match on the home screen to start chatting
+              </p>
+              <button
+                onClick={() => navigate('/home', { state: location.state })}
+                className='mt-[4px] text-[13px] font-semibold text-mingle-accent bg-transparent border-0 cursor-pointer hover:underline'
+              >
+                go to home →
+              </button>
+            </div>
+          ) : filtered.length > 0 ? (
             filtered.map(conv => (
               <ConversationItem
                 key={conv.id}
@@ -95,15 +114,11 @@ export default function ChatsScreen() {
             ))
           ) : (
             <div className='flex flex-col items-center justify-center py-[48px] gap-[8px]'>
-              <p className='text-[14px] font-semibold text-mingle-dark'>no chats yet</p>
-              <p className='text-[12px] font-normal text-mingle-gray text-center w-[220px]'>
-                get your first match to start chatting!
-              </p>
+              <p className='text-[14px] font-semibold text-mingle-dark'>no results</p>
             </div>
           )}
         </motion.div>
       </div>
-
     </PageMotion>
   );
 }

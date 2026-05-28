@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { fadeUp } from '../utils/motion';
 import PageMotion from '../components/PageMotion';
 import Button from '../components/Button';
 import { COURSE_CATALOG } from '../data/demoCourses';
-import { X, ArrowRight, ChevronLeft, Search } from 'lucide-react';
+import { X, ArrowRight, ChevronLeft } from 'lucide-react';
+import CourseSearchInput from '../components/CourseSearchInput';
 
 export default function ScheduleAddScreen() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [courses, setCourses] = useState(location.state?.courses ?? []);
+  const [courses, setCourses] = useState(() => {
+    if (location.state?.courses?.length > 0) return location.state.courses;
+    const saved = localStorage.getItem('mingle_courses');
+    if (saved) return JSON.parse(saved);
+    return [];
+  });
   const [search, setSearch] = useState('');
-  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('mingle_courses', JSON.stringify(courses));
+  }, [courses]);
 
   const suggestions = search.length > 0
     ? COURSE_CATALOG.filter(
@@ -33,7 +42,7 @@ export default function ScheduleAddScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-page overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 bg-mingle-bg-page overflow-hidden font-sans flex flex-col'
     >
       <Button
         variant='icon'
@@ -60,73 +69,17 @@ export default function ScheduleAddScreen() {
           helps us find classmates to match you with.
         </motion.p>
 
-        <motion.div
-          className='w-[342px] h-[48px] bg-white rounded-[12px] border-2 flex items-center px-[14px] gap-[10px]'
-          style={{ borderColor: focused ? '#4a74c7' : '#dedbed' }}
-          {...fadeUp(0.15)}
-        >
-          <input
-            data-testid='add-courses-search'
-            type='text'
-            placeholder='search by course code or title...'
-            value={search}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            onChange={(e) => setSearch(e.target.value)}
-            className='grow text-[14px] text-mingle-dark bg-transparent outline-none'
-            style={{ '::placeholder': { color: '#8c8a99' } }}
-          />
-          <Search size={15} className='text-grape-gray shrink-0' />
-        </motion.div>
+        <CourseSearchInput
+          search={search}
+          onSearchChange={setSearch}
+          suggestions={suggestions}
+          onAdd={add}
+          testId='add-courses-search'
+        />
+
       </div>
 
       <div className='flex-1 overflow-y-auto pb-[24px]'>
-        <AnimatePresence>
-          {suggestions.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.15 }}
-              className='px-[24px]'
-            >
-              <p
-                className='text-[11px] font-semibold uppercase tracking-widest mb-[8px]'
-                style={{ color: '#8c8a99' }}
-              >
-                suggestions
-              </p>
-              <div className='flex flex-col gap-[8px] mb-[16px]'>
-                {suggestions.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => add(c)}
-                    className='w-full h-[44px] bg-white rounded-[10px] flex items-center gap-[10px] px-[14px] text-left'
-                    style={{ border: '1px solid #dbe0ed' }}
-                  >
-                    <span
-                      className='text-[16px] font-normal w-[20px] text-center shrink-0'
-                      style={{ color: '#4a74c7' }}
-                    >
-                      +
-                    </span>
-                    <div className='flex flex-col min-w-0'>
-                      <p className='text-[13px] font-semibold text-mingle-dark leading-tight truncate'>
-                        {c.code}
-                      </p>
-                      <p
-                        className='text-[11px] font-normal leading-tight truncate'
-                        style={{ color: '#8c8a99' }}
-                      >
-                        {c.name}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <div
           className='mx-[24px] mb-[10px]'

@@ -52,7 +52,7 @@ export default function SignupScreen() {
   const allValid = nameValid && usernameValid && passwordValid && confirmValid;
 
   return (
-    <PageMotion className="absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-page overflow-hidden font-sans flex flex-col">
+    <PageMotion className="absolute inset-0 bg-mingle-bg-page overflow-hidden font-sans flex flex-col">
       <Button
         variant='icon'
         aria-label="Go back"

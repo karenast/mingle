@@ -38,7 +38,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <PageMotion className='absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
       <AppHeader />
 
       <div className='flex-1 overflow-y-auto px-[24px] pb-[68px] mt-[56px]'>

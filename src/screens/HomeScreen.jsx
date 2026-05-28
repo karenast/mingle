@@ -56,11 +56,19 @@ export default function HomeScreen() {
   };
 
   const matchRevealed = localStorage.getItem('mingle_match_revealed') === 'true';
-  const connections = matchRevealed ? [currentMatch, ...recentConnections] : recentConnections;
+  const jamieConnected = localStorage.getItem('mingle_connected') === '1';
+  const resolvedMatch = { ...currentMatch, connected: jamieConnected };
+  const connections = matchRevealed ? [resolvedMatch, ...recentConnections] : recentConnections;
   const countdown = useCountdown(getNextSunday9pm());
 
+  const stats = {
+    connections: parseInt(localStorage.getItem('mingle_connections') || '0'),
+    streak: parseInt(localStorage.getItem('mingle_streak') || '0'),
+    connected: parseInt(localStorage.getItem('mingle_connected') || '0'),
+  };
+
   return (
-    <PageMotion className='absolute inset-0 w-[390px] h-[844px] bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
       <AppHeader />
 
       <img
@@ -99,7 +107,7 @@ export default function HomeScreen() {
         <div className="px-[24px] mt-[16px] flex gap-[10px]">
           <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
             <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
-              {user.stats.connections}
+              {stats.connections}
             </p>
             <p className="text-[10px] font-normal text-mingle-gray leading-tight">
               connections
@@ -108,7 +116,7 @@ export default function HomeScreen() {
 
           <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
             <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
-              {user.stats.streak}🔥
+              {stats.streak}🔥
             </p>
             <p className="text-[10px] font-normal text-mingle-gray leading-tight">
               streak
@@ -117,7 +125,7 @@ export default function HomeScreen() {
 
           <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
             <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
-              {user.stats.connected}
+              {stats.connected}
             </p>
             <p className="text-[10px] font-normal text-mingle-gray leading-tight">
               connected

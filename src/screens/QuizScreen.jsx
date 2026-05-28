@@ -32,7 +32,7 @@ export default function QuizScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
       style={{ background: 'linear-gradient(to bottom, #f1f4ff 52%, #dce0ff 100%)' }}
     >
 

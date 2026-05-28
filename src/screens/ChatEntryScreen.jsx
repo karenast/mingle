@@ -13,7 +13,7 @@ export default function ChatEntryScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
       style={{ background: GRADIENT }}
     >
       <div className='absolute left-0 top-0 w-[390px] h-[88px] bg-white z-10' />
@@ -21,17 +21,6 @@ export default function ChatEntryScreen() {
         <Button variant='icon' aria-label='Go back' onClick={() => navigate(-1)} className='shrink-0'>
           <ChevronLeft size={20} strokeWidth={2} />
         </Button>
-        <div className='flex-1 flex justify-center'>
-          <div className='w-[36px] h-[36px] rounded-[18px] overflow-hidden'>
-            <img src={match.photoURL} alt='Match' className='w-full h-full object-cover object-top' />
-          </div>
-        </div>
-        <div
-          className='w-[22px] h-[22px] rounded-[11px] border border-[#dedbed] flex items-center justify-center shrink-0'
-          style={{ background: GRADIENT }}
-        >
-          <span className='text-[11px] font-normal text-mingle-gray leading-none'>i</span>
-        </div>
       </div>
 
       <div className='flex-1 flex flex-col items-center pt-[20px] px-[26px]'>

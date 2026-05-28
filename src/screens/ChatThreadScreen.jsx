@@ -55,9 +55,16 @@ export default function ChatThreadScreen() {
     }, 900);
   };
 
+  const markConnected = () => {
+    if (!localStorage.getItem('mingle_connected')) {
+      localStorage.setItem('mingle_connected', '1');
+    }
+  };
+
   const sendMessage = () => {
     const text = input.trim();
     if (!text || jamieTyping) return;
+    markConnected();
     setInput('');
     setMessages((prev) => [...prev, { id: Date.now(), sender: 'user', text }]);
     scheduleJamieReply(false);
@@ -66,6 +73,7 @@ export default function ChatThreadScreen() {
   const sendPromptResponse = () => {
     const text = promptInput.trim();
     if (!text) return;
+    markConnected();
     setShowPromptModal(false);
     setPromptInput('');
     setMessages((prev) => [
@@ -86,7 +94,7 @@ export default function ChatThreadScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
       style={{ background: GRADIENT }}
     >
       <div className='absolute left-0 top-0 w-[390px] h-[88px] bg-white z-10' />

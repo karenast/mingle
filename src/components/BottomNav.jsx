@@ -1,15 +1,17 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, MessageCircle, User } from 'lucide-react';
+import { Home, MessageCircle, User, Calendar } from 'lucide-react';
 
 const tabs = [
   { label: 'home',    icon: Home,          path: '/home' },
   { label: 'chat',    icon: MessageCircle, path: '/chats' },
+  { label: 'schedule', icon: Calendar,     path: '/schedule' },
   { label: 'profile', icon: User,          path: '/me' },
 ];
 
 function isTabActive(label, pathname) {
   if (label === 'chat') return pathname === '/chats' || pathname.startsWith('/chat/');
   if (label === 'profile') return pathname === '/me';
+  if (label === 'schedule') return pathname === '/schedule';
   return pathname === '/home';
 }
 

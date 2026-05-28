@@ -25,7 +25,7 @@ export default function MascotScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 w-[390px] h-[844px] overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
       style={{ background: 'linear-gradient(to bottom, #ece8fd, #d6d6ff)' }}
     >
       <div className='flex items-end justify-center gap-0 mt-[65px] shrink-0'>
