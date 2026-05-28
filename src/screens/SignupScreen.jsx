@@ -117,7 +117,7 @@ export default function SignupScreen() {
         </motion.p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-[26px] pt-[8px] pb-[16px]">
+      <div className="flex-1 overflow-y-auto px-[24px] pt-[8px] pb-[16px]">
         <motion.div {...fadeUp(0.34)}>
           <label className="text-[13px] font-normal text-mingle-dark mb-1 block">Name</label>
           <label
@@ -222,7 +222,7 @@ export default function SignupScreen() {
           navigate("/profile/photo", { state: { name: form.name, formData: form } });
         }}
         disabled={!allValid}
-        className="mx-[24px] mb-[28px]"
+        className="mx-[24px] w-[calc(100%-48px)] mb-[28px]"
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: allValid ? 1 : 0.4, y: 0 }}
         transition={{

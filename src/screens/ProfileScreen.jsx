@@ -33,6 +33,7 @@ export default function ProfileScreen() {
 
   const handleLogout = () => {
     localStorage.removeItem('mingle_match_revealed');
+    localStorage.removeItem('mingle_chat_active');
     clearUser();
     navigate('/');
   };

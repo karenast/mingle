@@ -46,7 +46,8 @@ export default function HomeScreen() {
 
   const registeredName = location.state?.name ?? demoUser.firstName;
   const firstName = registeredName.trim().split(' ')[0];
-  const lastName = registeredName.trim().split(' ').slice(1).join(' ') || demoUser.lastName;
+  const lastName =
+    registeredName.trim().split(' ').slice(1).join(' ') || demoUser.lastName;
 
   const user = {
     ...demoUser,
@@ -55,10 +56,13 @@ export default function HomeScreen() {
     stats: { connections: 0, streak: 0, connected: 0 },
   };
 
-  const matchRevealed = localStorage.getItem('mingle_match_revealed') === 'true';
+  const matchRevealed =
+    localStorage.getItem('mingle_match_revealed') === 'true';
   const jamieConnected = localStorage.getItem('mingle_connected') === '1';
   const resolvedMatch = { ...currentMatch, connected: jamieConnected };
-  const connections = matchRevealed ? [resolvedMatch, ...recentConnections] : recentConnections;
+  const connections = matchRevealed
+    ? [resolvedMatch, ...recentConnections]
+    : recentConnections;
   const countdown = useCountdown(getNextSunday9pm());
 
   const stats = {
@@ -71,73 +75,75 @@ export default function HomeScreen() {
     <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
       <AppHeader />
 
-      <img
-        src={mascotWaveUrl}
-        alt=''
-        className='absolute'
-        style={{
-          top: 119,
-          left: 90,
-          width: 211,
-          height: 173,
-          objectFit: 'contain',
-        }}
-      />
-
-      <div className={`flex-1 overflow-y-auto pb-[68px] mt-[56px]`}>
-        <div style={{ height: 236 }} aria-hidden="true" />
-
-        <div className="px-[24px]">
-          <p className="text-[22px] font-semibold text-mingle-dark leading-tight">
+      <div className={`flex-1 overflow-y-auto pb-[80px] mt-[56px]`}>
+        <div className='flex items-center justify-center w-full mb-[24px]'>
+          <img
+            src={mascotWaveUrl}
+            alt=''
+            style={{
+              display: 'flex',
+              width: 211,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+        <div className='px-[24px]'>
+          <p className='text-[22px] font-semibold text-mingle-dark leading-tight'>
             hey, {user.firstName.toLowerCase()}
           </p>
-          <p className="text-[12px] font-normal text-mingle-gray mt-[4px]">
+          <p className='text-[12px] font-normal text-mingle-gray mt-[4px]'>
             {user.term}
           </p>
         </div>
 
-        <div className="px-[24px] mt-[16px]">
+        <div className='px-[24px] mt-[16px]'>
           <MatchBannerCard
             variant={matchRevealed ? 'revealed' : 'pending'}
             countdown={countdown}
-            onClick={() => navigate('/match', { state: { ...location.state, navDirection: 1 } })}
+            onClick={() =>
+              navigate('/match', {
+                state: { ...location.state, navDirection: 1 },
+              })
+            }
           />
         </div>
 
-        <div className="px-[24px] mt-[16px] flex gap-[10px]">
-          <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
-            <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
+        <div className='px-[24px] mt-[16px] flex gap-[10px]'>
+          <div className='flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]'>
+            <p className='text-[18px] font-semibold text-mingle-dark leading-tight'>
               {stats.connections}
             </p>
-            <p className="text-[10px] font-normal text-mingle-gray leading-tight">
+            <p className='text-[10px] font-normal text-mingle-gray leading-tight'>
               connections
             </p>
           </div>
 
-          <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
-            <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
+          <div className='flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]'>
+            <p className='text-[18px] font-semibold text-mingle-dark leading-tight'>
               {stats.streak}🔥
             </p>
-            <p className="text-[10px] font-normal text-mingle-gray leading-tight">
+            <p className='text-[10px] font-normal text-mingle-gray leading-tight'>
               streak
             </p>
           </div>
 
-          <div className="flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]">
-            <p className="text-[18px] font-semibold text-mingle-dark leading-tight">
+          <div className='flex-1 bg-white rounded-[8px] p-[10px] flex flex-col gap-[2px]'>
+            <p className='text-[18px] font-semibold text-mingle-dark leading-tight'>
               {stats.connected}
             </p>
-            <p className="text-[10px] font-normal text-mingle-gray leading-tight">
+            <p className='text-[10px] font-normal text-mingle-gray leading-tight'>
               connected
             </p>
           </div>
         </div>
 
-        <p className="px-[24px] mt-[20px] text-[14px] font-semibold text-mingle-dark">
+        <p className='px-[24px] mt-[20px] text-[14px] font-semibold text-mingle-dark'>
           recent
         </p>
 
-        <div className="px-[24px] mt-[8px] flex flex-col gap-[8px]">
+        <div className='px-[24px] mt-[8px] flex flex-col gap-[8px]'>
           {connections.map((match) => {
             const initials = getInitials(match.firstName, match.lastName);
             const courseContext = `wk ${match.weekMatched} · ${match.sharedCourses.join(', ')}`;
@@ -150,31 +156,38 @@ export default function HomeScreen() {
                     state: { ...location.state, match, navDirection: 1 },
                   })
                 }
-                className="w-full bg-white rounded-card px-[14px] py-[14px] flex items-center gap-[12px] border-0 text-left"
+                className='w-full bg-white rounded-card px-[14px] py-[14px] flex items-center gap-[12px] border-0 text-left'
               >
-                <div className="w-[44px] h-[44px] rounded-full bg-mingle-bg-content flex items-center justify-center shrink-0 overflow-hidden">
-                  {match.photoURL
-                    ? <img src={match.photoURL} alt={match.firstName} className="w-full h-full object-cover object-top" />
-                    : <span className="text-[14px] font-semibold text-mingle-accent">{initials}</span>
-                  }
+                <div className='w-[44px] h-[44px] rounded-full bg-mingle-bg-content flex items-center justify-center shrink-0 overflow-hidden'>
+                  {match.photoURL ? (
+                    <img
+                      src={match.photoURL}
+                      alt={match.firstName}
+                      className='w-full h-full object-cover object-top'
+                    />
+                  ) : (
+                    <span className='text-[14px] font-semibold text-mingle-accent'>
+                      {initials}
+                    </span>
+                  )}
                 </div>
 
-                <div className="flex flex-col flex-1 min-w-0 gap-[2px]">
-                  <p className="text-[14px] font-semibold text-mingle-dark leading-tight">
+                <div className='flex flex-col flex-1 min-w-0 gap-[2px]'>
+                  <p className='text-[14px] font-semibold text-mingle-dark leading-tight'>
                     {match.firstName} {match.lastInitial}.
                   </p>
-                  <p className="text-[11px] font-normal text-mingle-gray leading-tight truncate">
+                  <p className='text-[11px] font-normal text-mingle-gray leading-tight truncate'>
                     {courseContext}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-[8px] shrink-0">
+                <div className='flex items-center gap-[8px] shrink-0'>
                   {match.connected && (
-                    <span className="text-[10px] font-medium bg-mingle-positive-bg text-mingle-positive rounded-badge px-[8px] py-[3px]">
+                    <span className='text-[10px] font-medium bg-mingle-positive-bg text-mingle-positive rounded-badge px-[8px] py-[3px]'>
                       ✓ connected
                     </span>
                   )}
-                  <ChevronRight size={16} className="text-mingle-gray" />
+                  <ChevronRight size={16} className='text-mingle-gray' />
                 </div>
               </button>
             );

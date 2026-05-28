@@ -57,8 +57,8 @@ export default function ScheduleScreen() {
 
         <Button
           variant='purple'
-          onClick={() => navigate('/schedule/entry', { state: location.state })}
-          className='w-[342px]'
+          onClick={() => navigate('/schedule/entry', { state: { ...location.state, navDirection: 1 } })}
+          className='w-full'
         >
           <span className='ml-[20px] flex-1 text-left'>import from WebReg</span>
           <ArrowRight size={16} className='mr-[20px]' />

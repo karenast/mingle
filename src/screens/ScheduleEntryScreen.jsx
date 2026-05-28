@@ -39,13 +39,13 @@ export default function ScheduleEntryScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col px-[24px]'
     >
       <Button
         variant='icon'
         aria-label='Go back'
-        onClick={() => navigate('/schedule', { state: location.state })}
-        className='absolute top-[14px] left-[16px] z-10'
+        onClick={() => navigate('/schedule', { state: { ...location.state, navDirection: -1 } })}
+        className='absolute top-[14px] left-[16px] z-20'
       >
         <ChevronLeft size={20} strokeWidth={2} />
       </Button>
@@ -64,7 +64,7 @@ export default function ScheduleEntryScreen() {
         }}
       />
 
-      <div className='flex flex-col flex-1 z-[10] px-[30px] pt-[68px]'>
+      <div className='flex flex-col flex-1 overflow-y-auto z-[10] pt-[68px]'>
         <motion.div className='mb-[8px]' {...fadeUp(0.05)}>
           <p className='text-[24px] font-semibold text-mingle-dark leading-[32px]'>
             what are you taking
@@ -75,7 +75,7 @@ export default function ScheduleEntryScreen() {
         </motion.div>
 
         <motion.p
-          className='text-[14px] font-normal text-grape-gray w-[342px] mb-[20px]'
+          className='text-[14px] font-normal text-grape-gray w-full mb-[20px]'
           {...fadeUp(0.1)}
         >
           we&apos;ll use your schedule to find your matches.
@@ -89,7 +89,7 @@ export default function ScheduleEntryScreen() {
         </motion.p>
 
         <motion.div
-          className='w-[337px]'
+          className='w-full'
           {...fadeUp(0.25)}
         >
           <AnimatePresence mode='wait'>
@@ -182,10 +182,10 @@ export default function ScheduleEntryScreen() {
         disabled={!parsed}
         onClick={() => {
           localStorage.setItem('mingle_courses', JSON.stringify(courses));
-          navigate('/schedule/add', { state: { ...location.state, courses } });
+          navigate('/schedule/add', { state: { ...location.state, courses, navDirection: 1 } });
         }}
-        className='mx-[24px] mb-[88px]'
-        animateIn={{ initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, delay: 0.3, ease: 'easeOut' } }}
+        className='w-full mb-[88px]'
+        animateIn={{ initial: { opacity: 0, y: 18 }, animate: { opacity: parsed ? 1 : 0.4, y: 0 }, transition: { duration: 0.5, delay: 0.3, ease: 'easeOut' } }}
       >
         looks good
         <ArrowRight size={16} strokeWidth={2} className='ml-[8px]' />

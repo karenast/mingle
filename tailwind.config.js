@@ -17,7 +17,7 @@ export default {
 
         // Grape persona — purple-tinted variants of the base tokens (from Figma 03-Mascot-v2)
         "grape-bg-page":    "#E9E5FC",  // Page bg  (base: mingle-bg-page #F1F1FD)
-        "grape-bg-content": "#DAD0EF",  // Badge / track bg  (base: mingle-bg-content #DBE4FF)
+        "grape-bg-content": "#dccff7",  // Badge / track bg  (base: mingle-bg-content #DBE4FF)
         "grape-panel":      "#F1F1FD",  // Card / panel bg  (base: mingle-white2 #F0F0F7)
         "grape-gray":       "#6B6680",  // Secondary text  (base: mingle-gray #676576)
         "grape-bar":        "#A790FF",  // Filled progress bar (no base equivalent)

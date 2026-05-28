@@ -8,7 +8,7 @@ export default function AppHeader({ firstName = '', lastName = '' }) {
     <>
       <button
         onClick={() => navigate('/home')}
-        className='absolute left-[24px] top-[13px] text-[20px] font-medium text-mingle-gray bg-transparent border-0 cursor-pointer p-0 leading-none hover:text-mingle-dark transition-colors'
+        className='absolute left-[24px] top-[20px] text-[20px] font-medium text-mingle-purple bg-transparent border-0 cursor-pointer p-0 leading-none hover:text-mingle-dark transition-colors'
       >
         mingle
       </button>

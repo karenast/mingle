@@ -48,7 +48,7 @@ export default function StartScreen() {
           just a class away.
         </motion.p>
 
-        <div className='flex flex-col gap-[10px] w-[330px]'>
+        <div className='flex flex-col gap-[10px] w-[330px] relative z-[1]'>
           <Button
             data-testid='start-login-btn'
             onClick={() => navigate('/signup')}
@@ -81,7 +81,7 @@ export default function StartScreen() {
       <motion.img
         src={mascotUrl}
         alt='Mingle mascot'
-        className='absolute bottom-0 left-[-47px] w-[381px] object-cover'
+        className='absolute bottom-0 left-[-47px] w-[381px] object-cover z-0'
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}

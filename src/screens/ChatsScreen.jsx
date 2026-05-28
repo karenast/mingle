@@ -7,8 +7,9 @@ import AppHeader from '../components/AppHeader';
 import { currentMatch } from '../data/demoMatches';
 import { demoUser } from '../data/demoUser';
 import { fadeUp } from '../utils/motion';
+import { JAMIE_RESPONSES } from '../data/demoMessages';
 
-const INITIAL_MESSAGE = "Hey! Happy to be your match this week 👋";
+const INITIAL_MESSAGE = JAMIE_RESPONSES[0].message;
 
 const CONVERSATIONS = [
   {
@@ -16,7 +17,7 @@ const CONVERSATIONS = [
     match: currentMatch,
     lastMessage: INITIAL_MESSAGE,
     timestamp: 'now',
-    unread: true,
+    unread: false,
   },
 ];
 
@@ -68,8 +69,10 @@ export default function ChatsScreen() {
   const [search, setSearch] = useState('');
 
   const matchRevealed = localStorage.getItem('mingle_match_revealed') === 'true';
+  const chatActive    = localStorage.getItem('mingle_chat_active')    === 'true';
+  const hasChats      = matchRevealed && chatActive;
 
-  const filtered = matchRevealed
+  const filtered = hasChats
     ? CONVERSATIONS.filter(c =>
         `${c.match.firstName} ${c.match.lastInitial}`.toLowerCase().includes(search.toLowerCase())
       )
@@ -88,7 +91,7 @@ export default function ChatsScreen() {
         </motion.p>
 
         <motion.div className='px-[24px] flex flex-col gap-[10px]' {...fadeUp(0.15)}>
-          {!matchRevealed ? (
+          {!hasChats ? (
             <div className='flex flex-col items-center justify-center py-[60px] gap-[12px]'>
               <div className='w-[56px] h-[56px] rounded-full bg-mingle-bg-content flex items-center justify-center'>
                 <MessageCircle size={24} className='text-mingle-accent' strokeWidth={1.5} />
@@ -101,7 +104,7 @@ export default function ChatsScreen() {
                 onClick={() => navigate('/home', { state: location.state })}
                 className='mt-[4px] text-[13px] font-semibold text-mingle-accent bg-transparent border-0 cursor-pointer hover:underline'
               >
-                go to home →
+                go to home
               </button>
             </div>
           ) : filtered.length > 0 ? (

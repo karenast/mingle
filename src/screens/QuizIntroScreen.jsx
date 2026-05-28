@@ -11,18 +11,18 @@ export default function QuizIntroScreen() {
   const location = useLocation();
 
   return (
-    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
-      <div className='flex flex-col gap-[4px] px-[47px] mt-[57px]'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col px-[24px]'>
+      <div className='flex flex-col gap-[4px] mt-[57px]'>
         <motion.p className='text-[14px] font-semibold text-mingle-gray' {...fadeUp(0.1)}>
           Personality Quiz
         </motion.p>
-        <motion.p className='text-[24px] font-semibold text-mingle-dark w-[284px]' {...fadeUp(0.18)}>
+        <motion.p className='text-[24px] font-semibold text-mingle-dark' {...fadeUp(0.18)}>
           Let's get to know you!
         </motion.p>
       </div>
 
       <motion.div
-        className='mx-[47px] mt-[94px] w-[300px] h-[284px] bg-mingle-bg-content rounded-[20px] overflow-hidden flex items-center justify-center'
+        className='mt-[24px] w-[90%] h-[284px] self-center bg-mingle-bg-content rounded-[20px] overflow-hidden flex items-center justify-center'
         {...fadeUp(0.26)}
       >
         <img
@@ -33,7 +33,7 @@ export default function QuizIntroScreen() {
       </motion.div>
 
       <motion.p
-        className='px-[47px] mt-[30px] w-full text-[14px] font-semibold text-mingle-gray leading-snug max-w-[390px]'
+        className='mt-[30px] text-[14px] font-semibold text-mingle-gray leading-snug'
         {...fadeUp(0.34)}
       >
         After completing a 6 question personality quiz, you will be given your
@@ -45,7 +45,7 @@ export default function QuizIntroScreen() {
       <Button
         data-testid='quiz-intro-next-btn'
         onClick={() => navigate('/quiz/1', { state: location.state })}
-        className='mx-[26px] w-[342px]'
+        className='w-full mb-[8px]'
         animateIn={fadeUp(0.42)}
       >
         next

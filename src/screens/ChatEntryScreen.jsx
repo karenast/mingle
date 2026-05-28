@@ -23,7 +23,7 @@ export default function ChatEntryScreen() {
         </Button>
       </div>
 
-      <div className='flex-1 flex flex-col items-center pt-[20px] px-[26px]'>
+      <div className='flex-1 overflow-y-auto flex flex-col items-center pt-[20px] px-[24px]'>
         <div className='w-[88px] h-[88px] rounded-[44px] overflow-hidden flex-shrink-0'>
           <img src={match.photoURL} alt={match.firstName} className='w-full h-full object-cover object-top' />
         </div>

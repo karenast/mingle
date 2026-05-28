@@ -32,7 +32,7 @@ export default function QuizScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 overflow-hidden font-sans flex flex-col px-[24px]'
       style={{ background: 'linear-gradient(to bottom, #f1f4ff 52%, #dce0ff 100%)' }}
     >
 
@@ -54,7 +54,7 @@ export default function QuizScreen() {
       </motion.p>
 
       <motion.div
-        className='mx-[24px] mt-[10px] w-[342px] h-[156px] bg-mingle-bg-content rounded-[20px] overflow-hidden relative shrink-0'
+        className='mt-[10px] w-full h-[156px] bg-mingle-bg-content rounded-[20px] overflow-hidden relative shrink-0'
         {...fadeUp(0.12)}
       >
         <img
@@ -62,12 +62,12 @@ export default function QuizScreen() {
           alt=''
           className='absolute left-[-12px] bottom-[-10px] h-[120px] object-cover opacity-60 pointer-events-none'
         />
-        <p className='absolute left-[102px] top-[24px] w-[220px] text-[20px] font-semibold text-mingle-dark leading-snug'>
+        <p className='absolute left-[102px] top-[24px] right-[16px] text-[20px] font-semibold text-mingle-dark leading-snug'>
           {question}
         </p>
       </motion.div>
 
-      <div className='mx-[24px] mt-[18px] w-[342px] flex flex-col gap-[10px]'>
+      <div className='mt-[18px] flex flex-col gap-[10px]'>
         {answers.map((answer, i) => (
           <motion.button
             key={i}
@@ -91,7 +91,7 @@ export default function QuizScreen() {
         data-testid='quiz-confirm-btn'
         onClick={handleConfirm}
         disabled={selected === null}
-        className='btn mx-[24px] mb-[28px] w-[342px] h-[48px] bg-mingle-dark text-white rounded-[10px] text-[14px] font-semibold border-0 cursor-pointer shrink-0'
+        className='btn mb-[28px] w-full h-[48px] bg-mingle-dark text-white rounded-[10px] text-[14px] font-semibold border-0 cursor-pointer shrink-0'
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: selected === null ? 0.4 : 1, y: 0 }}
         whileHover={selected !== null ? { scale: 1.02 } : {}}

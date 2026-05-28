@@ -42,18 +42,18 @@ export default function ScheduleAddScreen() {
 
   return (
     <PageMotion
-      className='absolute inset-0 bg-mingle-bg-page overflow-hidden font-sans flex flex-col'
+      className='absolute inset-0 bg-mingle-bg-page overflow-hidden font-sans flex flex-col px-[24px]'
     >
       <Button
         variant='icon'
         aria-label='Go back'
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/schedule/entry', { state: { ...location.state, navDirection: -1 } })}
         className='absolute top-[14px] left-[16px] z-10'
       >
         <ChevronLeft size={20} strokeWidth={2} />
       </Button>
 
-      <div className='px-[24px] pt-[62px] pb-[14px] shrink-0'>
+      <div className='pt-[62px] pb-[14px] shrink-0'>
         <motion.p
           className='text-[26px] font-semibold text-mingle-dark mb-[4px]'
           {...fadeUp(0.05)}
@@ -62,7 +62,7 @@ export default function ScheduleAddScreen() {
         </motion.p>
 
         <motion.p
-          className='text-[13px] font-normal w-[342px] mb-[16px]'
+          className='text-[13px] font-normal w-full mb-[16px]'
           style={{ color: '#8c8a99' }}
           {...fadeUp(0.1)}
         >
@@ -82,11 +82,11 @@ export default function ScheduleAddScreen() {
       <div className='flex-1 overflow-y-auto pb-[24px]'>
 
         <div
-          className='mx-[24px] mb-[10px]'
+          className='mb-[10px]'
           style={{ height: 1, backgroundColor: '#dbe0ed' }}
         />
 
-        <div className='px-[24px]'>
+        <div>
           <p
             className='text-[11px] font-semibold uppercase tracking-widest mb-[10px]'
             style={{ color: '#8c8a99' }}
@@ -131,8 +131,8 @@ export default function ScheduleAddScreen() {
 
       <Button
         data-testid='add-courses-done-btn'
-        onClick={() => navigate('/home', { state: { ...location.state, courses } })}
-        className='mx-[24px] mb-[88px]'
+        onClick={() => navigate('/home', { state: { ...location.state, courses, navDirection: 1 } })}
+        className='w-full mb-[88px]'
       >
         done
         <ArrowRight size={16} className='ml-[8px]' />

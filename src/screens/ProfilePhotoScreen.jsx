@@ -22,7 +22,7 @@ export default function ProfilePhotoScreen() {
   };
 
   return (
-    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col'>
+    <PageMotion className='absolute inset-0 bg-mingle-bg-page font-sans overflow-hidden flex flex-col px-[24px]'>
       <Button
         variant='icon'
         aria-label="Go back"
@@ -32,7 +32,7 @@ export default function ProfilePhotoScreen() {
         <ChevronLeft size={20} strokeWidth={2} />
       </Button>
 
-      <div className='flex flex-col flex-1 px-[26px] pt-[64px] pb-[112px]'>
+      <div className='flex flex-col flex-1 pt-[64px] pb-[24px] overflow-y-auto'>
         <motion.p
           className='text-[36px] font-semibold text-mingle-dark'
           {...fadeUp(0.1)}
@@ -41,14 +41,14 @@ export default function ProfilePhotoScreen() {
         </motion.p>
 
         <motion.div
-          className='mt-[12px] w-[342px] h-[252px] bg-mingle-bg-content rounded-[20px] overflow-hidden relative flex items-center justify-center'
+          className='mt-[12px] w-full h-[200px] bg-mingle-bg-content rounded-[20px] overflow-hidden relative flex items-center justify-center'
           {...fadeUp(0.18)}
         >
           <motion.button
             data-testid='photo-upload-btn'
             aria-label={photo ? 'Change profile photo' : 'Upload profile photo'}
             onClick={() => fileRef.current?.click()}
-            className='w-[191px] h-[191px] rounded-full bg-white flex items-center justify-center overflow-hidden cursor-pointer'
+            className='w-[160px] h-[160px] rounded-full bg-white flex items-center justify-center overflow-hidden cursor-pointer'
             whileHover={{ scale: 1.04, boxShadow: '0 8px 24px rgba(74,116,199,0.22)' }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 360, damping: 22 }}
@@ -91,7 +91,7 @@ export default function ProfilePhotoScreen() {
             state: { name: location.state?.name, bio, photo, formData: location.state?.formData },
           });
         }}
-        className='mx-[24px] mb-[28px]'
+        className='w-full mb-[28px]'
       >
         next →
       </Button>

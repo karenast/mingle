@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft } from 'lucide-react';
+import { ArrowRight, ArrowUp, ChevronLeft } from 'lucide-react';
 import PageMotion from '../components/PageMotion';
 import Button from '../components/Button';
 import { currentMatch } from '../data/demoMatches';
@@ -65,6 +65,7 @@ export default function ChatThreadScreen() {
     const text = input.trim();
     if (!text || jamieTyping) return;
     markConnected();
+    localStorage.setItem('mingle_chat_active', 'true');
     setInput('');
     setMessages((prev) => [...prev, { id: Date.now(), sender: 'user', text }]);
     scheduleJamieReply(false);
@@ -73,6 +74,7 @@ export default function ChatThreadScreen() {
   const sendPromptResponse = () => {
     const text = promptInput.trim();
     if (!text) return;
+    localStorage.setItem('mingle_chat_active', 'true');
     markConnected();
     setShowPromptModal(false);
     setPromptInput('');
@@ -115,26 +117,9 @@ export default function ChatThreadScreen() {
         <ChevronLeft size={20} strokeWidth={2} />
       </Button>
 
-      <div className='absolute left-[177px] top-[45px] w-[36px] h-[36px] rounded-[18px] overflow-hidden bg-[#ede5fc] z-10'>
-        <img
-          src={match.photoURL}
-          alt={match.firstName}
-          className='w-full h-full object-cover object-top'
-        />
-      </div>
-
-      <div
-        className='absolute left-[344px] top-[51px] w-[22px] h-[22px] rounded-[11px] border border-[#dedbed] flex items-center justify-center z-10'
-        style={{ background: GRADIENT }}
-      >
-        <span className='text-[11px] font-normal text-mingle-gray leading-none'>
-          i
-        </span>
-      </div>
-
       <div className='h-[88px] flex-shrink-0' />
 
-      <div className='flex-1 overflow-y-auto px-[20px] pb-[68px]'>
+      <div className='flex-1 overflow-y-auto px-[24px] pb-[68px]'>
         <div className='bg-white rounded-[20px] p-[20px] flex flex-col gap-[8px] mt-[16px]'>
           <p className='text-[11px] font-semibold text-[#182B98]'>
             ✦&nbsp; this week&apos;s prompt
@@ -225,7 +210,7 @@ export default function ChatThreadScreen() {
         <div ref={bottomRef} />
       </div>
 
-      <div className='absolute left-0 bottom-[68px] w-[390px] h-[68px] bg-white border-t border-[#dedbed]'>
+      <div className='flex mb-[68px] px-[12px] gap-[10px] py-[12px] bg-white border-t border-[#dedbed]'>
         <input
           ref={inputRef}
           data-testid='chat-input'
@@ -234,13 +219,13 @@ export default function ChatThreadScreen() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          className='absolute left-[12px] top-[14px] w-[318px] h-[40px] rounded-[20px] border border-[#dedbed] px-[16px] text-[13px] text-mingle-dark placeholder:text-mingle-gray bg-transparent outline-none'
+          className=' w-full h-[40px] rounded-[20px] border border-[#dedbed] px-[16px] text-[13px] text-mingle-dark placeholder:text-mingle-gray bg-transparent outline-none'
         />
         <motion.button
           data-testid='chat-send-btn'
           onClick={sendMessage}
           disabled={!canSend}
-          className='absolute right-[12px] top-[14px] w-[40px] h-[40px] rounded-[20px] flex items-center justify-center border-0 cursor-pointer'
+          className='w-[40px] shrink-0 h-[40px] rounded-[20px] flex items-center justify-center border-0 cursor-pointer'
           style={{ backgroundColor: canSend ? '#0F0D1F' : '#dedbed' }}
           whileHover={canSend ? { scale: 1.08 } : {}}
           whileTap={canSend ? { scale: 0.9 } : {}}
@@ -250,7 +235,7 @@ export default function ChatThreadScreen() {
             className='text-[14px] font-semibold leading-none'
             style={{ color: canSend ? '#fff' : '#8c8a99' }}
           >
-            ↑
+            <ArrowUp size={16} />
           </span>
         </motion.button>
       </div>
@@ -315,7 +300,8 @@ export default function ChatThreadScreen() {
                   disabled={!promptInput.trim()}
                   onClick={sendPromptResponse}
                 >
-                  send answer →
+                  send answer
+                  <ArrowRight size={16} className='ml-[8px]' />
                 </Button>
               </div>
             </motion.div>
