@@ -92,7 +92,7 @@ export default function ProfileScreen() {
 
         <motion.div {...fadeUp(0.2)}>
           <Button className='w-full mb-[12px]' onClick={handleSave} disabled={saved}>
-            {saved ? 'saved ✓' : 'save changes →'}
+            {saved ? 'saved ✓' : 'save changes'}
           </Button>
         </motion.div>
 
